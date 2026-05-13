@@ -25,12 +25,9 @@ The evaporator process model consists of a dynamic nonlinear system of equations
 T2   = 0.5616*P2 + 0.3126*X2 + 48.43;
 T3   = 0.507*P2 + 55.0;
 T100 = 0.1538*P100 + 90.0;
-
 Q100 = 0.16*(F1 + F3)*(T100 - T2);
 F100 = Q100 / lambda_s;
-
 F4   = (Q100 - F1*Cp*(T2 - T1)) / lambda;
-
 Q200 = UA2*(T3 - T200) / (1 + UA2/(2*Cp*F200));
 T201 = T200 + Q200/(F200*Cp);
 F5   = Q200 / lambda;
