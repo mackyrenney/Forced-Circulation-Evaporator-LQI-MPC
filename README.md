@@ -38,3 +38,23 @@ dX2dt = (F1*X1 - F2*X2) / M;
 dP2dt = (F4 - F5) / C;
 
 sys = [dL2dt dX2dt dP2dt];
+```
+
+
+**LQI: Simulink Design**
+---
+<img width="720" height="451" alt="Screenshot 2026-05-13 at 8 18 53 PM" src="https://github.com/user-attachments/assets/d320652d-25dc-49f4-ac3e-1999b73c8c99" />
+
+
+
+**MPC: Simulink Design**
+---
+<img width="915" height="619" alt="Screenshot 2026-05-13 at 8 21 56 PM" src="https://github.com/user-attachments/assets/87317ba0-24b8-47da-83e0-8f1e97f311b7" />
+
+
+
+
+
+
+
+
