@@ -77,7 +77,7 @@ lambda_s = 36.6;
 **State, Manipulated, and Disturbance Variable Partition**
 ---
 
-**Evaporator Constraints**
+**System Constraints**
 ---
 
 **LQI: Simulink Design**
