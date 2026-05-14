@@ -69,13 +69,13 @@ UA2 = 6.84; % kW/K
 lambda_s = 36.6; % kW/(kg/min)
 
 ```
+**State, Manipulated, and Disturbance Variable Partition**
+---
 
 
 **Optimization Function**
 ---
 
-**State, Manipulated, and Disturbance Variable Partition**
----
 
 **System Constraints**
 ---
