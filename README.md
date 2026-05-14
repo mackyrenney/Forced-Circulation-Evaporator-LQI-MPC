@@ -60,13 +60,13 @@ X2 = 25; % percent
 P2 = 50.5; % kPa
 
 % Constant Parameters
-rhoA = 20;
-M = 20;
-Cpar = 4;
-Cp = 0.07; 
-lambda   = 38.5;
-UA2 = 6.84;
-lambda_s = 36.6; 
+rhoA = 20; % kg/m
+M = 20; % kg
+Cpar = 4; % kg/kPa
+Cp = 0.07; % kW/K(kg/min)
+lambda   = 38.5; % kW/(kg/min)
+UA2 = 6.84; % kW/K
+lambda_s = 36.6; % kW/(kg/min)
 
 ```
 
