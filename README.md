@@ -45,28 +45,28 @@ As a guide to explore the evaporator process, the following nominal conditions a
 ```matlab
 % Nominal Process Variables
 % Inputs
-F1   = 10; % kg/min
-F2   = 2; % kg/min
-F3   = 50; % kg/min
-X1   = 5;% percent
-F200 = 208; % kg/min
-T1   = 40; % C
-T200 = 25; % C
-P100 = 194.7; % kPa
+F1   = 10; % kg/min    (feed flowrate)
+F2   = 2; % kg/min     (product flowrate)
+F3   = 50; % kg/min    (circulating flowrate)
+X1   = 5;% percent     (inlet composition)
+F200 = 208; % kg/min   (cooling water flowrate)
+T1   = 40; % C         (feed temperature)
+T200 = 25; % C         (cooling water inlet temp.)
+P100 = 194.7; % kPa    (steam pressure)
 
 % States
-L2 = 1; % m
-X2 = 25; % percent
-P2 = 50.5; % kPa
+L2 = 1; % m            (separator level)
+X2 = 25; % percent     (product composition)
+P2 = 50.5; % kPa       (operating pressure)
 
 % Constant Parameters
-rhoA = 20; % kg/m
-M = 20; % kg
-Cpar = 4; % kg/kPa
-Cp = 0.07; % kW/K(kg/min)
-lambda   = 38.5; % kW/(kg/min)
-UA2 = 6.84; % kW/K
-lambda_s = 36.6; % kW/(kg/min)
+rhoA = 20; % kg/m              (separator hold-up)
+M = 20; % kg                   (evaporator liquid hold-up)
+Cpar = 4; % kg/kPa             (constant for vapor mass to pressure conversion)
+Cp = 0.07; % kW/K(kg/min)      (heat capacity of process liquid)
+lambda   = 38.5; % kW/(kg/min) (latent heat of evaporation of process liquid)
+UA2 = 6.84; % kW/K             (condenser overall heat transfer coefficient)
+lambda_s = 36.6; % kW/(kg/min) (latent heat of steam)
 
 ```
 **State, Manipulated, and Disturbance Variable Partition**
