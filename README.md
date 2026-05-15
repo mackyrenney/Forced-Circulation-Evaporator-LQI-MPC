@@ -71,8 +71,25 @@ lambda_s = 36.6; % kW/(kg/min)
 ```
 **State, Manipulated, and Disturbance Variable Partition**
 ---
+A quick DOF analysis allows us to show our system has 20 variables - 12 equations = 8 DOF. Since there are 3 designated state variables (L2, X2, and P2), we first design a square system with 3 manipulated inputs and 3 state variables. The remaining 5 independent variables will represent the mathematical flexibility within our model, +1 additional mv input and +4 additional disturbance inputs. 
 
+Manipulated Inputs: F2, F3, F200, P100 <br>
+Disturbance Inputs: F1, X1, T1, T200
 
+[Resources] 
+A sidequest for users playing with the simulation may also target different varieties of MV and DV. Specifically, choosing any of the other internal variables not described in the nominal process variables, denoted in the markdown below 
+``` matlab
+% Additional process variables
+F4 = 8.0 % kg/min   (vapor flowrate)
+F5 = 8.0 % kg/min   (condensate flowrate)
+T2 = 84.6 % C       (product temperature)
+T3 = 80.6 % C       (circulating temperature)
+F100 = 9.3 % kg/min (steam flowrate)
+T100 = 119.9 % C    (steam temperature)
+Q100 = 339.0 % kW   (heater duty)
+T201 = 46.1  % C    (cooling water outlet temp)
+Q200 = 307.9 % kW   (condenser duty)
+```
 **Optimization Function**
 ---
 
