@@ -71,7 +71,7 @@ lambda_s = 36.6; % kW/(kg/min) (latent heat of steam)
 ```
 **State, Manipulated, and Disturbance Variable Partition**
 ---
-A quick DOF analysis allows us to show our system has 20 variables - 12 equations = 8 DOF. Since there are 3 designated state variables (L2, X2, and P2), we first design a square system with 3 manipulated inputs and 3 state variables. The remaining 5 independent variables will represent the mathematical flexibility within our model, +1 additional mv input and +4 additional disturbance inputs. 
+A quick DOF analysis allows us to see this system has 20 variables - 12 equations = 8 DOF. Since there are 3 designated state variables (L2, X2, and P2), we first design a square system with 3 manipulated inputs and 3 state variables. The remaining 5 independent variables will represent the mathematical flexibility within the model, +1 additional mv input and +4 additional disturbance inputs. 
 
 Manipulated Inputs: F2, F3, F200, P100 <br>
 Disturbance Inputs: F1, X1, T1, T200
@@ -90,13 +90,17 @@ Q100 = 339.0 % kW   (heater duty)
 T201 = 46.1  % C    (cooling water outlet temp)
 Q200 = 307.9 % kW   (condenser duty)
 ```
-**Optimization Function**
----
-
-
 **System Constraints**
 ---
 
+**Optimization Function**
+---
+The evaporator system with system constraints transforms into a constrained optimization problem when a profit function is applied. The cost–profit function was formulated to maximize the economic performance of the system while satisfying all process constraints. The profitability metric is deonted by quantity F2 of product outflow multiplied by the unit price per kilogram of apple concentrate (V). The costs are denoted by the steam cost (S) and the water cost (W) multiplied by their respective process values. The electrical energy consumption of the pumps (F2 and F3) is relatively small compared to the thermal energy demand of the evaporator. For a small-scale installation with a feed flow of 10 kg/min, the total pump power is estimated to be approximately 0.7 kW which is assumed as a negligible contribution. A penalty term is added regarding the extra quality constraint of X2min.
+``` matlab
+profit = F2*V - S*F100 - W*F200;
+penalty = 50 * max(0, X2min - X2)^2;
+P = -profit + penalty;
+```
 **LQI: Simulink Design**
 ---
 <img width="720" height="451" alt="Screenshot 2026-05-13 at 8 18 53 PM" src="https://github.com/user-attachments/assets/d320652d-25dc-49f4-ac3e-1999b73c8c99" />
