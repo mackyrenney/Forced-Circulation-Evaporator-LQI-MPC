@@ -92,7 +92,15 @@ Q200 = 307.9 % kW   (condenser duty)
 ```
 **System Constraints**
 ---
+The safety constraints on P2, P100, F200, F3, L2 must be respected at all times, i.e. these are hard constraints. The constraint on the product purify X2 must be respected on average. Hence small violations in dynamic simulations of the constraint can be
+accepted for a short time. Choose your products constraint in the interval X2min ∈[20; 35].
+``` matlab
+% Decision variables: [P2, L2, X2, F2, F3, F200, P100]
+xMin = [40,   0.3,  20,   0,   0,   1,    100]; 
+xMax = [80,   2.0,  100,  20,  80, 380,  380];
+```
 
+ 
 **Optimization Function**
 ---
 The evaporator system with system constraints transforms into a constrained optimization problem when a profit function is applied. The cost–profit function was formulated to maximize the economic performance of the system while satisfying all process constraints. The profitability metric is deonted by quantity F2 of product outflow multiplied by the unit price per kilogram of apple concentrate (V). The costs are denoted by the steam cost (S) and the water cost (W) multiplied by their respective process values. The electrical energy consumption of the pumps (F2 and F3) is relatively small compared to the thermal energy demand of the evaporator. For a small-scale installation with a feed flow of 10 kg/min, the total pump power is estimated to be approximately 0.7 kW which is assumed as a negligible contribution. A penalty term is added regarding the extra quality constraint of X2min.
