@@ -119,13 +119,13 @@ set_param(model_name, 'LoadExternalInput', 'off');
 
 [A_full, B_full, C_full, D_full] = linmod(model_name, x_nom, u_full_nom);
 ```
-Then the system is augmented including state integrators.
-
-$`\mathbf{A_I} =\begin{bmatrix} \mathbf{A}&\mathbf{0} \\ -\mathbf{C}&\mathbf{0}\end{bmatrix},
+Then the system is augmented including state integrators, and tuned accordingly with state penalities Q and input penalties R.
+$`
+\mathbf{A_I} =\begin{bmatrix} \mathbf{A}&\mathbf{0} \\ -\mathbf{C}&\mathbf{0}\end{bmatrix},
 \mathbf{B_I} =\begin{bmatrix} \mathbf{B_u} \\ \mathbf{0}\end{bmatrix},
-\mathbf{C_I} =\begin{bmatrix} \mathbf{C}& \mathbf{0}\end{bmatrix}
-\mathbf{Q_I} = \begin{bmatrix}\mathbf{Q} & 0 \\0 & \mathbf{Q_s} \\\end{bmatrix}, 
-\quad \mathbf{R_I} = \mathbf{R}
+\mathbf{C_I} =\begin{bmatrix} \mathbf{C}& \mathbf{0}\end{bmatrix},
+\mathbf{Q_I} = \begin{bmatrix}\mathbf{Q} & 0 \\ 0 & \mathbf{Q_s} \end{bmatrix},
+\mathbf{R_I} = \begin{bmatrix}\mathbf{R}\end{bmatrix}
 `$
 
 and stabilizing gain ($`K_x`$) and reference tracking gain ($`K_i`$) are calculated. 
@@ -137,6 +137,14 @@ K_lqi = lqi(sys_plant, Q, R);
 K_x = K_lqi(:, 1:3); 
 K_i = K_lqi(:, 4:6); 
 ```
+
+The following system dynamics considers additive band-limited white noise on measurement states and disturbance variables and follows the discrete-time state-space equations.
+ 
+$`x_{k+1} = Ax_k + B_uu_k + B_dd_k`$
+
+$`y_k = Cx_k + v_k`$
+ 
+The resulting LQI model is presented and simulated in Simulink:
 <img width="720" height="451" alt="Screenshot 2026-05-13 at 8 18 53 PM" src="https://github.com/user-attachments/assets/d320652d-25dc-49f4-ac3e-1999b73c8c99" />
 
 
