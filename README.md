@@ -111,6 +111,32 @@ P = -profit + penalty;
 ```
 **LQI: Simulink Design**
 ---
+The non-linear system is linearized around the optimized steady state using the "dummy" script.
+``` matlab
+model_name = 'Evaporator_linearized_LQI_updated';
+if ~bdIsLoaded(model_name), load_system(model_name); end
+set_param(model_name, 'LoadExternalInput', 'off');
+
+[A_full, B_full, C_full, D_full] = linmod(model_name, x_nom, u_full_nom);
+```
+Then the system is augmented including state integrators.
+
+$`\mathbf{A_I} =\begin{bmatrix} \mathbf{A}&\mathbf{0} \\ -\mathbf{C}&\mathbf{0}\end{bmatrix},
+\mathbf{B_I} =\begin{bmatrix} \mathbf{B_u} \\ \mathbf{0}\end{bmatrix},
+\mathbf{C_I} =\begin{bmatrix} \mathbf{C}& \mathbf{0}\end{bmatrix}
+\mathbf{Q_I} = \begin{bmatrix}\mathbf{Q} & 0 \\0 & \mathbf{Q_s} \\\end{bmatrix}, 
+\quad \mathbf{R_I} = \mathbf{R}
+`$
+
+and stabilizing gain ($`K_x`$) and reference tracking gain ($`K_i`$) are calculated. 
+``` matlab
+sys_plant = ss(A, B, C, D);
+K_lqi = lqi(sys_plant, Q, R);
+
+% Split K_lqi into State Feedback (K_x) and Integral Tracking (K_i)
+K_x = K_lqi(:, 1:3); 
+K_i = K_lqi(:, 4:6); 
+```
 <img width="720" height="451" alt="Screenshot 2026-05-13 at 8 18 53 PM" src="https://github.com/user-attachments/assets/d320652d-25dc-49f4-ac3e-1999b73c8c99" />
 
 
