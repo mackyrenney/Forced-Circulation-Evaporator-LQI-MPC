@@ -120,6 +120,7 @@ set_param(model_name, 'LoadExternalInput', 'off');
 [A_full, B_full, C_full, D_full] = linmod(model_name, x_nom, u_full_nom);
 ```
 Then the system is augmented including state integrators, and tuned accordingly with state penalities Q and input penalties R.
+
 $`
 \mathbf{A_I} =\begin{bmatrix} \mathbf{A}&\mathbf{0} \\ -\mathbf{C}&\mathbf{0}\end{bmatrix},
 \mathbf{B_I} =\begin{bmatrix} \mathbf{B_u} \\ \mathbf{0}\end{bmatrix},
@@ -166,7 +167,7 @@ The Kalman Estimator calculates the discrete kalman gain upon initialization:
 [K_filter, P_cov, ~] = dlqe(Ad, eye(3), Cd, Q_est, R_est); % Discrete Kalman Gain
 ```
 
-Then, the Kalman Filter Block, compares live plant data consisting of noisy measurements and disturbances with the prediction from the internal physical model, and filters the innovation by scaling the error by the discrete kalman gain. The resulting x_hat_aug are clean estimated state vectors.
+Then, the Kalman Filter Block, compares live plant data consisting of noisy measurements and disturbances with the prediction from the internal physical model, and filters the innovation by scaling the error by the discrete kalman gain. The resulting $`x_hat_aug`$ are clean estimated state vectors.
 
 The regulator optimizes valve throttling using a QP solver in the MPC_regulator Simulink block.
 
@@ -177,7 +178,7 @@ H_raw = 2 * (Bd_aug' * Q_aug * Bd_aug + R);
 H = (H_raw + H_raw') / 2; % Force symmetry
 ```
 
-The corrected x_hat_aug passes through the line gradient vector (f) for QP formulation. This gives the QP algorithm an optimal trajectory for ideal valve movements $\Delta u$ to reject disturbance and stabilize the evaporator.
+The corrected x_hat_aug passes through the line gradient vector (f) for QP formulation. This gives the QP algorithm an optimal trajectory for ideal valve movements $\Delta u$ to reject disturbance and stabilize the evaporator. The 1-step free response (Ad_aug * x_hat_aug) shows what the next step will be without valve movement. The tracking penalty (Q_aug) penalizes variation in states based on weighted tuning. The input projection (Bd_aug') described how moving the valves changes the states. Therefore, Bd_aug' * Q_aug, represents ideal valve arrangements to fix predicted error.
 
 ``` matlab
 f = 2 * Bd_aug' * Q_aug * (Ad_aug * x_hat_aug);
