@@ -61,7 +61,7 @@ tfin = 5000;
 %% 3. OPEN-LOOP LINEARIZATION
 % NOTE: Ensure 'Evaporator_Simulink_OpenLoop' has NO PID blocks.
 % It should just be the S-Function block with inputs/outputs.
-model_name = 'Evaporator_linearized_LQI_updated';
+model_name = 'Evaporator_dummy_linearized_LQI';
 if ~bdIsLoaded(model_name), load_system(model_name); end
 set_param(model_name, 'LoadExternalInput', 'off');
 
