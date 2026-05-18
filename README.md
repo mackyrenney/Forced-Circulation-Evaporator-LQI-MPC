@@ -170,10 +170,15 @@ Then, the Kalman Filter Block, compares live plant data consisting of noisy meas
 
 The regulator optimizes valve throttling using a QP solver in the MPC_regulator Simulink block.
 
+The corrected x_hat_aug passes through the line gradient vector (f) for QP formulation. This gives the QP algorithm an optimal trajectory for ideal valve movements $\Delta u$ to reject disturbance and stabilize the evaporator.
+
+``` matlab
+f = 2 * Bd_aug' * Q_aug * (Ad_aug * x_hat_aug);
+```
 
 With actuator constraints:
 ``` matlab
-% Constraints for quadprog (Converted to deviation variables)[cite: 1]
+% Constraints for quadprog (Converted to deviation variables)
 % u_min <= u_nom + delta_u <= u_max  =>  delta_u <= u_max - u_nom
 u_lb = [0; 0; 1; 100] - u_mv_nom;
 u_ub = [20; 80; 380; 380] - u_mv_nom;
