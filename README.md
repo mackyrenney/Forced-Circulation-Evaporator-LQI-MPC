@@ -162,13 +162,20 @@ if ~bdIsLoaded(model_name), load_system(model_name); end
 The Kalman Estimator calculates the discrete kalman gain upon initialization:
 
 ``` matlab
-% Q_est: Process Noise, R_est: Measurement Noise[cite: 1]
-[K_filter, P_cov, ~] = dlqe(Ad, eye(3), Cd, Q_est, R_est); % Discrete Kalman Gain[cite: 1]
+% Q_est: Process Noise, R_est: Measurement Noise
+[K_filter, P_cov, ~] = dlqe(Ad, eye(3), Cd, Q_est, R_est); % Discrete Kalman Gain
 ```
 
 Then, the Kalman Filter Block, compares live plant data consisting of noisy measurements and disturbances with the prediction from the internal physical model, and filters the innovation by scaling the error by the discrete kalman gain. The resulting x_hat_aug are clean estimated state vectors.
 
 The regulator optimizes valve throttling using a QP solver in the MPC_regulator Simulink block.
+
+The cost landscape for the QP problem is defined by the Hessian (H). The input penalties (R) penalize aggressive valve movements and the tracking cost (Bd_aug' * Q_aug * Bd_aug) calculates how much the state error will increase for given valve changes.
+
+``` matlab
+H_raw = 2 * (Bd_aug' * Q_aug * Bd_aug + R);
+H = (H_raw + H_raw') / 2; % Force symmetry
+```
 
 The corrected x_hat_aug passes through the line gradient vector (f) for QP formulation. This gives the QP algorithm an optimal trajectory for ideal valve movements $\Delta u$ to reject disturbance and stabilize the evaporator.
 
@@ -194,6 +201,7 @@ Using Matlab's quadprog function
 [tmp, ~, exitflag] = quadprog(H, f, A_ineq, b_ineq, [], [], u_lb, u_ub, x0, opts);
 ```
 
+The resulting MPC model is presented and simulated in Simulink:
 <img width="915" height="619" alt="Screenshot 2026-05-13 at 8 21 56 PM" src="https://github.com/user-attachments/assets/87317ba0-24b8-47da-83e0-8f1e97f311b7" />
 
 
