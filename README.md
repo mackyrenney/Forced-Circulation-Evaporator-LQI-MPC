@@ -155,7 +155,7 @@ The resulting LQI model is presented and simulated in Simulink:
 The model predictive control structure follows the same linearization scheme with the "dummy" Simulink script as the LQI. 
 
 ``` matlab
-model_name = 'Evaporator_linearized_LQI_updated';
+model_name = 'Evaporator_dummy_linearized_0';
 if ~bdIsLoaded(model_name), load_system(model_name); end
 [A_full, B_full, C_full, D_full] = linmod(model_name, x_nom, u_full_nom);
 ```
