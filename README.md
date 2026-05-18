@@ -151,6 +151,44 @@ The resulting LQI model is presented and simulated in Simulink:
 
 **MPC: Simulink Design**
 ---
+The model predictive control structure follows the same linearization scheme with the "dummy" Simulink script as the LQI. 
+
+``` matlab
+model_name = 'Evaporator_linearized_LQI_updated';
+if ~bdIsLoaded(model_name), load_system(model_name); end
+[A_full, B_full, C_full, D_full] = linmod(model_name, x_nom, u_full_nom);
+```
+
+The Kalman Estimator calculates the discrete kalman gain upon initialization:
+
+``` matlab
+% Q_est: Process Noise, R_est: Measurement Noise[cite: 1]
+[K_filter, P_cov, ~] = dlqe(Ad, eye(3), Cd, Q_est, R_est); % Discrete Kalman Gain[cite: 1]
+```
+
+Then, the Kalman Filter Block, compares live plant data consisting of noisy measurements and disturbances with the prediction from the internal physical model, and filters the innovation by scaling the error by the discrete kalman gain. The resulting x_hat_aug are clean estimated state vectors.
+
+The regulator optimizes valve throttling using a QP solver in the MPC_regulator Simulink block.
+
+
+With actuator constraints:
+``` matlab
+% Constraints for quadprog (Converted to deviation variables)[cite: 1]
+% u_min <= u_nom + delta_u <= u_max  =>  delta_u <= u_max - u_nom
+u_lb = [0; 0; 1; 100] - u_mv_nom;
+u_ub = [20; 80; 380; 380] - u_mv_nom;
+```
+and state constraint on level:
+``` matlab
+A_ineq = [-B_L2; B_L2];
+b_ineq = [-(L2_limit_min - x_hat_aug(1)); (L2_limit_max - x_hat_aug(1))];
+```
+
+Using Matlab's quadprog function 
+``` matlab
+[tmp, ~, exitflag] = quadprog(H, f, A_ineq, b_ineq, [], [], u_lb, u_ub, x0, opts);
+```
+
 <img width="915" height="619" alt="Screenshot 2026-05-13 at 8 21 56 PM" src="https://github.com/user-attachments/assets/87317ba0-24b8-47da-83e0-8f1e97f311b7" />
 
 
