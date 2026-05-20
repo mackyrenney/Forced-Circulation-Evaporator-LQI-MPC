@@ -7,12 +7,11 @@ F1_vals = out.F1_gen;
 integrator_vals = out.integrator_gen;
 
 
-figure(1); % Use a specific figure number
-clf;       % CLEAR the figure completely so old plots don't linger
+figure(1); 
+clf;       
 set(gcf, 'Color', 'w');
 sgtitle('F1 20% step load and Integrator Magnitude', 'FontSize', 16, 'FontWeight', 'bold')
 
-% --- Subplot 1: Level (L2) ---
 subplot(4,1,1)
 hold off; % Ensure we aren't drawing over old data
 plot(tnon, F1_vals, 'r', 'LineWidth', 1.5)
