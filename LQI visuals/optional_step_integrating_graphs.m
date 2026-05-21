@@ -1,3 +1,5 @@
+% This code plots integrating states and a step in F1 input value for step testing
+
 %% output_data.m
 fs = 14; 
 
