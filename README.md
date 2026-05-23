@@ -167,7 +167,7 @@ The Kalman Estimator calculates the discrete kalman gain upon initialization:
 [K_filter, P_cov, ~] = dlqe(Ad, eye(3), Cd, Q_est, R_est); % Discrete Kalman Gain
 ```
 
-Then, the Kalman Filter Block, compares live plant data consisting of noisy measurements and disturbances with the prediction from the internal physical model, and filters the innovation by scaling the error by the discrete kalman gain. The resulting $`x_hat_aug`$ are clean estimated state vectors.
+Then, the Kalman Filter Block, compares live plant data consisting of noisy measurements and disturbances with the prediction from the internal physical model, and filters the innovation by scaling the error by the discrete kalman gain. The resulting x_hat_aug are clean estimated state vectors.
 
 The regulator optimizes valve throttling using a QP solver in the MPC_regulator Simulink block.
 
