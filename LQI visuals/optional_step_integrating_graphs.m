@@ -3,8 +3,7 @@
 %% output_data.m
 fs = 14; 
 
-% Extraction (Assuming Array format as discussed)
-tnon = out.tout; % or out.tout
+tnon = out.tout; 
 F1_vals = out.F1_gen;
 integrator_vals = out.integrator_gen;
 
