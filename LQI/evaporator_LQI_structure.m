@@ -50,7 +50,7 @@ P100_opt = xOpt(7);
 
 % Re-assign actual variables for Simulink and linmod
 x_nom = [L2_opt; X2_opt; P2_opt]; 
-xinit = x_nom; % This fixes your S-function xinit error
+xinit = x_nom; 
 u_full_nom = [dist.F1 ; F2_opt; F3_opt; dist.X1; F200_opt; dist.T1; dist.T200; P100_opt];
 u_mv_nom = u_full_nom([2, 3, 5, 8]);
 
