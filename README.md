@@ -209,6 +209,7 @@ $`x_{k+1} = Ax_k + B_uu_k + B_dd_k`$
 $`y_k = Cx_k + v_k`$
 
 The resulting MPC model is presented and simulated in Simulink:
+
 <img width="915" height="619" alt="Screenshot 2026-05-13 at 8 21 56 PM" src="https://github.com/user-attachments/assets/87317ba0-24b8-47da-83e0-8f1e97f311b7" />
 
 
