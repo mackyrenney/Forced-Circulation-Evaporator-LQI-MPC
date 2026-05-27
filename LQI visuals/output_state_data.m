@@ -15,21 +15,21 @@ set(gcf, 'Color', 'w');
 sgtitle('LQI State Variables with UA2 +25%', 'FontSize', 16, 'FontWeight', 'bold')
 
 subplot(3,1,1)
-hold off; % Ensure we aren't drawing over old data
+hold off; 
 plot(tnon, L2_vals, 'b', 'LineWidth', 1.5)
 ylabel('Level (m)', 'FontSize', fs, 'FontWeight', 'bold') 
 ylim([0, 2])
 set(gca, 'LineWidth', 2, 'FontSize', 12, 'FontWeight', 'bold') 
 
 subplot(3,1,2)
-hold off; % Explicitly turn hold off for the second plot
+hold off;
 plot(tnon, X2_vals, 'b', 'LineWidth', 1.5)
 ylabel('Composition (%)', 'FontSize', fs, 'FontWeight', 'bold') 
 ylim([10, 50])
 set(gca, 'LineWidth', 2, 'FontSize', 12, 'FontWeight', 'bold') 
 
 subplot(3,1,3)
-hold off; % Explicitly turn hold off for the third plot
+hold off; 
 plot(tnon, P2_vals, 'b', 'LineWidth', 1.5)
 xlabel('Time (min)', 'FontSize', fs, 'FontWeight', 'bold') 
 ylabel('Pressure (kPa)', 'FontSize', fs, 'FontWeight', 'bold')
