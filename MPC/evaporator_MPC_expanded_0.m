@@ -55,7 +55,7 @@ assignin('base', 'xinit', xinit); % Force it into the base workspace
 %% 4. MANUAL MPC DESIGN (ESTIMATOR & REGULATOR)
 Ts = 0.5; % Sample Time
 
-% --- 1. Define Matrices for the ESTIMATOR (8 inputs) ---
+% ESTIMATOR Matrices (8 inputs) ---
 A = A_full;
 B_for_estimator = B_full(:, [2, 3, 5, 8, 1, 4, 6, 7]); % 4 MVs + 4 Disturbances
 C_est = eye(3); 
@@ -71,7 +71,7 @@ Cd = sys_est_d.C;      % Output matrix (identity)
 Dd_est = sys_est_d.D;  % 3x8 zero matrix
 Cd = eye(3); 
 
-% --- 2. Define Matrices for the REGULATOR (4 inputs) ---
+% Regulator Matrices (4 inputs)
 B_for_regulator = B_full(:, [2, 3, 5, 8]); % Only the 4 Valves
 C_reg = eye(3);
 D_reg = zeros(3, 4);
@@ -82,13 +82,13 @@ sys_reg_d = c2d(sys_reg_c, Ts);
 % Variable for the MATLAB Function Block:
 Bd = sys_reg_d.B;      % 3x4 matrix for QP solver
 
-% --- A. Kalman Filter Design (The Estimator) ---
+% Kalman Filter Design
 % Q_est: Process Noise, R_est: Measurement Noise[cite: 1]
 Q_est = eye(3) * 0.01; 
 R_est = diag([var_L, var_X, var_P]); 
 [K_filter, P_cov, ~] = dlqe(Ad, eye(3), Cd, Q_est, R_est); % Discrete Kalman Gain[cite: 1]
 
-% --- B. QP Solver Preparation (The Regulator) ---
+% QP Solver Preparation 
 N = 10; % Prediction Horizon[cite: 1]
 Q_weight = diag([10, 2, 0.5]); % Output weights[cite: 1]
 R_weight = eye(4) * 0.1;       % Input rate weights[cite: 1]
@@ -98,7 +98,7 @@ R_weight = eye(4) * 0.1;       % Input rate weights[cite: 1]
 u_lb = [0; 0; 1; 100] - u_mv_nom;
 u_ub = [20; 80; 380; 380] - u_mv_nom;
 
-% --- 1. Define Augmentation Matrices ---
+% Augmentation Matrices 
 [n_states, n_inputs] = size(Bd); 
 [n_outputs, ~] = size(Cd);
 
@@ -119,7 +119,7 @@ Q_aug = diag([100, 1, 50, 10, 1, 10]);
 
 disp('Manual MPC Matrices Initialized.');
 
-%% 5. HELPER FUNCTIONS (fmincon)[cite: 1, 2]
+%% HELPER FUNCTIONS (fmincon)[cite: 1, 2]
 function [c, ceq] = nonlinearconE(x, dist)
     rhoA=20; M=20; Cpar=4; Cp=0.07; lambda=38.5; UA2=6.84;
     P2=x(1); L2=x(2); X2=x(3); F2=x(4); F3=x(5); F200=x(6); P100=x(7);
